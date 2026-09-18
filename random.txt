@@ -11,3 +11,8 @@ Moe 参数量大，激活小很多，但是不能跟小参数稠密模型比较
 glm5.3是从5.2后训练出来的 sft模型，网络安全方面有加强，有人在huggingface上删了一层破限被禁了
 sft模型意味着蒸馏吗？
 
+常见瓶颈：1.ssd-内存 2.pcie(内存-显存) 3.内存墙(显存-计算核心)
+cerebras / groq 的做法：超大SRAM直接存权重 （寄存器>SRAM>HBM>DRAM）
+很看好本地部署，v4-flash够用了，折腾党非常想玩但是钱不够，希望价格能降下来
+有网友测cerebras的qwen-27b能到2ktps
+gpt的5.3-codex-spark好像用了cerebras，下架了
