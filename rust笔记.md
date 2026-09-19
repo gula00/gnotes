@@ -210,6 +210,8 @@ enum List {
 
 rust compiler会自动做padding
 
+也可以用Rc，这样可以反复使用比如Rc::clone(&a)
+
 
 
 String::from的意义：把&str转化成String，&str不拥有，这样可以在heap上分配内存
@@ -234,3 +236,23 @@ fn main() {
   	hello(&m);
 }
 ```
+
+
+
+impl drop 不能显示调用
+
+
+
+Rc::strong_count
+
+还有weak_count避免**循环**
+
+> The parent keeps the child alive. The child can look at the parent, but does not keep it alive.
+
+RefCell内部可变性，不安全
+
+Rc和RefCell都只适用于单线程
+
+ 
+
+i32 as usize 必须要转化，好麻烦
