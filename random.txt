@@ -1,3 +1,5 @@
+很看好本地部署，v4-flash够用了
+折腾党非常想玩但是钱不够，希望价格能降下来
 rtxpro6000四可以部署v4-flash
 原来便宜的时候6.5w一张，现在翻倍了
 
@@ -5,6 +7,8 @@ rtxpro6000四可以部署v4-flash
 有人提出pd分离：dgxspark用来prefill，Mac来decode
 
 k3 
+256k上下文是甜点区，否则召回率低
+有人说256k是kimi-for-coding，再大是k3
 
 Moe 参数量大，激活小很多，但是不能跟小参数稠密模型比较
 
@@ -13,6 +17,15 @@ sft模型意味着蒸馏吗？
 
 常见瓶颈：1.ssd-内存 2.pcie(内存-显存) 3.内存墙(显存-计算核心)
 cerebras / groq 的做法：超大SRAM直接存权重 （寄存器>SRAM>HBM>DRAM）
-很看好本地部署，v4-flash够用了，折腾党非常想玩但是钱不够，希望价格能降下来
 有网友测cerebras的qwen-27b能到2ktps
 gpt的5.3-codex-spark好像用了cerebras，下架了
+
+关注的课程：
+cs329a去年的rsi课程，好像有点古老而且不太硬，没找到作业
+cs329z还没开
+cmu11768
+cs146s
+MIT 多模态
+cs336 常看常新，面试用
+
+最近jev火了，mark一下有时间调研
