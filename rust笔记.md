@@ -1,3 +1,9 @@
+彩蛋：the dark arts of unsafe rust
+
+https://doc.rust-lang.org/nomicon/index.html
+
+
+
 18错误处理
 
 捕获，传播（延迟？），返回消息
@@ -247,12 +253,109 @@ Rc::strong_count
 
 还有weak_count避免**循环**
 
-> The parent keeps the child alive. The child can look at the parent, but does not keep it alive.
+用tree，同时child要知道parent，不用Rc而是用Weak
 
-RefCell内部可变性，不安全
+```rust
+fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
 
-Rc和RefCell都只适用于单线程
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&leaf),
+        Rc::weak_count(&leaf),
+    );
 
- 
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&leaf)]),
+        });
 
-i32 as usize 必须要转化，好麻烦
+      // leaf weak point to branch
+        *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
+        println!(
+            "branch strong = {}, weak = {}",
+            Rc::strong_count(&branch),
+            Rc::weak_count(&branch),
+        );
+
+        println!(
+            "leaf strong = {}, weak = {}",
+            Rc::strong_count(&leaf),
+            Rc::weak_count(&leaf),
+        );
+    }
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&leaf),
+        Rc::weak_count(&leaf),
+    );
+}
+```
+
+```bash
+leaf strong = 1, weak = 0
+branch strong = 1, weak = 1
+leaf strong = 2, weak = 0
+leaf parent = None
+leaf strong = 1, weak = 0
+```
+
+想知道Weak指的值需要upgrade，类似Some
+
+
+
+RefCell内部可变性，不安全（可能运行时出错，而且会有性能损失）
+
+Rc和RefCell都只适用于单线程（use Mutex instead）
+
+Rc 默认 immutable，可以结合 RefCell `Rc::new(RefCell::new(5))`
+
+ RefCell使用场景（书里的例子）
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::RefCell;
+
+    struct MockMessenger {
+      // sent_messages: Vec<String>,
+        sent_messages: RefCell<Vec<String>>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger {
+              // sent_messages: vec![],
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            self.sent_messages.borrow_mut().push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        // --snip--
+
+        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
+    }
+}
+```
+
+如果用&mut T 1.接口变了 2.独占借用
+
+borrow_mut() 的返回类型是 RefMut

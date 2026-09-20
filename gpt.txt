@@ -1,0 +1,8 @@
+gpt2参数量 124M-1.5B 有很明显的规模效应
+attention is all your need 用的是古老的tensorflow，代码量很大
+李沐推过自己的框架，没人用
+karpathy用pytorch实现过，youtube 4h视频讲解 有一个mirocgrad教学用框架
+tinygrad也可以看看，作者是搞自动驾驶的
+
+从gpt2开始就是decoder-only
+一些多模态、jev等模型还有encoder
