@@ -102,8 +102,6 @@ impl Executor for BashExecutor {
     }
 }
 
-// 看看我给的 tonic 的例子，想想怎么实现让 27 行可以正常执行
-
 fn main() {
     let env = "PATH=/usr/bin".to_string();
 
@@ -111,6 +109,7 @@ fn main() {
     let r1 = execute(cmd, BashExecutor { env: env.clone() });
     println!("{:?}", r1);
 
+  // TODO
     let r2 = execute(cmd, |cmd: &str| {
         Ok(format!("fake fish execute: env: {}, cmd: {}", env, cmd))
     });
@@ -359,3 +358,25 @@ mod tests {
 如果用&mut T 1.接口变了 2.独占借用
 
 borrow_mut() 的返回类型是 RefMut
+
+
+
+多线程
+
+handle.join()的位置
+
+move把所有权给其他thread 新thread可能活的更久，move后main无法drop
+
+thread is scheduled by OS, 线程抢CPU核心
+
+​	进程process有独立的地址空间，成本高
+
+​	协程共享heap/stack，不陷入内核，成本最小
+
+> “Do not communicate by sharing memory; instead, share memory by communicating.”
+
+mpsc 是线程间的，pipe是进程间的
+
+move捕获外部变量，把tx所有权交给闭包，tx.send只是&self借用可以多次发送
+
+rx 实现了类似iterator的trait

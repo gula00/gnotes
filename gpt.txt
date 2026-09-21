@@ -6,3 +6,10 @@ tinygrad也可以看看，作者是搞自动驾驶的
 
 从gpt2开始就是decoder-only
 一些多模态、jev等模型还有encoder
+
+data相关
+怕版权找麻烦，现在大家都不公布预训练细节了？
+wiki投毒：赶在存档之前加点料
+wiki不用自己爬，直接下载tar就行
+
+原生多模态原理

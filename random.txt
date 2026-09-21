@@ -6,11 +6,15 @@ rtxpro6000四可以部署v4-flash
 2*dgxspark也可以，听说有点慢
 有人提出pd分离：dgxspark用来prefill，Mac来decode
 
-k3 
+k3
 256k上下文是甜点区，否则召回率低
 有人说256k是kimi-for-coding，再大是k3
 
 Moe 参数量大，激活小很多，但是不能跟小参数稠密模型比较
+专家坍缩，有的专家无人问津
+损失函数/容量上限/噪声注入
+
+专家数量：v2-160，v3-256
 
 glm5.3是从5.2后训练出来的 sft模型，网络安全方面有加强，有人在huggingface上删了一层破限被禁了
 sft模型意味着蒸馏吗？

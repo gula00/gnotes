@@ -1,0 +1,4 @@
+random tick机制：有id的block每个tick会随机更新
+java版本的单线程tick？
+
+java没有用ecs，可以画一个继承关系树 比如living-entity
