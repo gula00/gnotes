@@ -246,6 +246,10 @@ fn main() {
 
 impl drop 不能显示调用
 
+Vec 不能实现copy trait，因为是浅拷贝，两个指向同一块heap，会释放两次
+String没有copy
+copy和drop互斥
+use after free危害大于内存泄漏
 
 
 Rc::strong_count
