@@ -17,3 +17,6 @@ nxt数组，从后往前 预处理建表，空间换时间
 
 Rust相关
 如果 a 已经存在，在 clone 过程中会分配内存，那么用 a.clone_from(&b) 可以避免内存分配，提高效率
+
+match 缩写 if let Some(node) = l1
+match(l1) {Some(node)=>{}None=>{}}

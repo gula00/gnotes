@@ -1,0 +1,69 @@
+端到端压缩比太大，可能学习到虚假特征？
+
+transformer基础：
+
+attention 公式含义、代码
+除以 dk^-2 是为了防止点积过大导致 softmax 饱和（梯度接近 0）
+
+subword分词（BPE / WordPiece）通过学习高频词干、前缀、后缀，显著减少OOV。
+主流BPE，比如tiktoken：https://huggingface.co/moonshotai/Kimi-K3/blame/main/kimi_k3_processor.py
+
+word2vec（古老）：CBOW / Skip-gram
+CBOW用周围上下文预测中心词，Skip-gram相反。
+现代 LLM 通常不直接使用 Word2Vec。 Transformer 自己的 embedding layer 会在训练过程中学习 token embedding。
+
+Vanilla RNN 的核心问题是沿时间步反复连乘导致的梯度消失/爆炸
+LSTM 的核心就是在 RNN 上增加了一条更容易让梯度传播的记忆通道 加法
+
+Attention Is All You Need：可以完全去掉 RNN，只用 Attention 来建模序列。
+Decoder 独有 encoder–decoder（cross-）attention
+Encoder-only 模型（如 BERT）没有 Cross-Attention
+多头可以并行捕捉不同类型的交互模式
+LayerNorm 对每个 token 的隐特征（按位置）做归一化，稳定并加速训练
+因果 mask 禁止看到未来 token
+
+正弦位置编码可外推到更长序列、不必重训
+BERT 主目标是 MLM（辅以 NSP）
+Encoder-only（BERT 类）预训练双向，适合句子编码/分类
+RoPE 对 (Q,K) 做位置相关的二维旋转，从而编码相对距离
+当前主流 LLM 多用 RoPE（在 attention 内部）
+Longformer：滑窗局部注意力 + 可选全局 token
+因果 mask 加在 softmax 之前的 QK⊤分数矩阵上
+FFN 提供逐 token 的非线性与通道混合
+Encoder-only：MLM（+NSP）
+Encoder–decoder：span corruption / denoising seq2seq
+Decoder-only：因果 next-token prediction
+
+RoPE
+
+稀疏 MoE：每个 token 只激活学到的 top-(k) 专家
+PagedAttention 用分页管理 KV cache，减轻碎片、提高 serving 效率
+小 draft 模型先提候选 token，大模型再验证/纠正
+KV cache 避免重复计算历史 (K,V)，降低每 token 延迟
+MQA/GQA 的优势 共享（或分组共享）KV 缩小 KV cache 与带宽
+Nucleus（top-(p)）：取累积概率的最小 token 集合再采样
+升高温度 (T) 会把分布拉平，多样性增加
+
+Routing collapse
+(i) token 被路由到少数几个专家，其余专家几乎不被用，负载严重不均。
+(ii) 加 auxiliary load-balancing loss（Switch Transformer 一类）；也可加噪声路由、专家容量限制等。10.
+(i) 多样性：greedy/beam 低；top-(k)/top-(p) 高。
+(ii) 质量/连贯性：beam 通常更稳、更“正确”；greedy 易重复；采样更有创意但更容易跑偏。
+(iii) 计算：greedy 最便宜；beam 要维护多条假设，更贵；采样与 greedy 同量级。
+
+Decoder-only LLM 的标准预训练目标是自回归 next-token prediction
+现代预训练数据主要是大规模网页文本 + 代码等混合
+SFT：收集 instruction/response 对，微调模型以改变行为
+LoRA：在冻结的基座权重上加低秩适配矩阵来表示更新
+混合精度：激活/梯度用低精度，同时保留一份高精度权重用于更新
+FlashAttention：把 attention 分块放进 on-chip SRAM，减少 HBM 读写，并用选择性重计算，同时保持精确
+ZeRO-3 同时切分 optimizer state、梯度和参数
+QLoRA：基座权重存 4-bit NF4（双重量化），LoRA 用更高精度训练，矩阵乘在较高精度完成
+
+Instruction tuning
+(i) 相对纯预训练（只会“续写”），instruction tuning 让模型学会按指令作答、对齐用户期望的格式与行为。
+(ii) 常见挑战：高质量指令数据贵且难收集；对数据选择/格式非常敏感；可能遗忘预训练知识；评估困难等。
+
+FlashAttention
+(i) 核心：按块（tiling）在 SRAM 里算 softmax attention，避免把巨大的分数矩阵整块写回 HBM，必要时重计算中间量，结果仍是精确 attention。
+(ii) 实践收益：同样硬件上能训/推更长序列，显存占用下降，训练/推理更快。

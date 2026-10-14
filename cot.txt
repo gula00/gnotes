@@ -1,0 +1,8 @@
+user 新开一轮对话，不包含之前的reasoning 用tool会保存COT
+https://developers.openai.com/api/docs/guides/reasoning
+
+https://arxiv.org/html/2608.09867v1
+reasoning的trace可以用来sft蒸馏
+cross model漏洞：用弱的模型将signature解密
+分享对话历史时COT不可见，却可能包含敏感信息
+COT算在output token计费里面，却不呈现

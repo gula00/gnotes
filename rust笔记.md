@@ -384,3 +384,9 @@ mpsc 是线程间的，pipe是进程间的
 move捕获外部变量，把tx所有权交给闭包，tx.send只是&self借用可以多次发送
 
 rx 实现了类似iterator的trait
+
+---
+
+future
+
+async fn ~ fn -> impl Future + async move
