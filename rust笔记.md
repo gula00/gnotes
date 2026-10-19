@@ -390,3 +390,9 @@ rx 实现了类似iterator的trait
 future
 
 async fn ~ fn -> impl Future + async move
+
+关于async move：
+如果实现了copy trait，比如&str，可以复制一份；
+Strng，Vec这种直接转移所有权，如果不加move只是借用
+
+main前面不能加async

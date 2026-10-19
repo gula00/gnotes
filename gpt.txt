@@ -19,3 +19,17 @@ wiki不用自己爬，直接下载tar就行
 gemini固定视频单元 / kimi支持原生分辨率
 qwen3-vl 开始 视觉感知+语言推理能力互相独立
 什么时候加入视觉？k2.5发现越早越好
+
+知识库
+目前gpt-astra knowledge截止到4/30
+可以让agent联网搜索
+
+YaRN "长"上下文
+https://arxiv.org/html/2309.00071#S4
+和RoPE对比？wpe？
+用了LLaMA tokenizer
+其他的选择 tiktokenizer
+
+PG19 数据 1919年前的2.8w本书
+
+RLHF | DPO | GPRO
