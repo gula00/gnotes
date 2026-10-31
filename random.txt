@@ -1,9 +1,3 @@
-很看好本地部署，v4-flash够用了
-折腾党非常想玩但是钱不够，希望价格能降下来
-rtxpro6000四可以部署v4-flash
-原来便宜的时候6.5w一张，现在翻倍了
-
-2*dgxspark也可以，听说有点慢
 有人提出pd分离：dgxspark用来prefill，Mac来decode
 
 k3
@@ -22,7 +16,7 @@ sft模型意味着蒸馏吗？
 常见瓶颈：1.ssd-内存 2.pcie(内存-显存) 3.内存墙(显存-计算核心)
 cerebras / groq 的做法：超大SRAM直接存权重 （寄存器>SRAM>HBM>DRAM）
 有网友测cerebras的qwen-27b能到2ktps
-gpt的5.3-codex-spark好像用了cerebras，下架了
+gpt的5.3-codex-spark cerebras，下架了
 
 关注的课程：
 cs329a去年的rsi课程，好像有点古老而且不太硬，没找到作业
@@ -30,7 +24,7 @@ cs329z还没开
 cmu11768
 cs146s
 MIT 多模态
-cs336 常看常新，面试用
+cs336
 
 最近jev火了，mark一下有时间调研
 
@@ -41,4 +35,5 @@ cs336 常看常新，面试用
 
 primeagen直播里说他跟tsoding不熟
 
-程序员最怕的不是AI取代工作（因为需要human in the loop），而是事实上的扩招。有了AI大家学东西都很快，cs同学积累不了技术门槛，大家都是天才程序员。现在高薪的LLM工作更多是看conn和相关经验，持续不了多久。
+相机
+https://github.com/huggingface/lerobot/tree/main/src/lerobot/cameras
