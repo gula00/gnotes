@@ -1,0 +1,24 @@
+ein 爱因斯坦求和约定
+
+lora
+SVD分解，插在Q/K效果比较好
+
+clip l2 缩放到 max_norm
+
+ddpm 马尔可夫链，通过前向过程逐步向数据中添加高斯噪声直至数据变成纯噪声，再通过神经网络学习其逆向过程，从纯噪声中逐步降噪生成真实数据。
+提高ELBO
+https://www.youtube.com/watch?v=EhndHhIvWWw
+forward_noise(x0, ab, eps)
+alpha_bars(T, b0, b1) 线性step
+noise_prediction_loss(eps, eps_pred)
+
+---
+
+cls 最小公共子数组 dp
+
+---
+
+ray
+remote actor
+task  多进程绕过GIL，async提交 get的时候才阻塞 无状态
+传递ObjectRef实现任务编排
