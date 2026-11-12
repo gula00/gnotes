@@ -5,6 +5,8 @@ SVD分解，插在Q/K效果比较好
 
 clip l2 缩放到 max_norm
 
+RMSnorm放在哪里？
+
 ddpm 马尔可夫链，通过前向过程逐步向数据中添加高斯噪声直至数据变成纯噪声，再通过神经网络学习其逆向过程，从纯噪声中逐步降噪生成真实数据。
 提高ELBO
 https://www.youtube.com/watch?v=EhndHhIvWWw
@@ -22,3 +24,48 @@ ray
 remote actor
 task  多进程绕过GIL，async提交 get的时候才阻塞 无状态
 传递ObjectRef实现任务编排
+
+
+---
+
+reddit 数据集
+
+GSM8K
+
+RL后训练需要数据吗
+
+---
+
+推理训练不一致 TIM
+
+https://github.com/verl-project/verl/blob/main/verl/trainer/config/algorithm/rollout_correction.yaml
+默认IS、RS都关，不bypass（重算 old log-prob）
+
+https://github.com/verl-project/verl/blob/main/verl/trainer/ppo/rollout_corr_helper.py
+rollout用vLLM，训练用pytorch（FSDP）
+μ：vLLM 生成回复时的策略
+π_old：更新前，训练侧重算的策略
+π_θ：更新过程中，训练侧当前的策略
+
+修正 TIS / IcePop
+不同的 clip 方式
+IS 选择 token / seqence
+
+如何选择 decouple / bypass
+detach() 很重要：虽然 bypass 模式的权重来自当前策略的概率比，但在这种策略梯度估计中，它应作为系数；如果继续对权重求导，就会产生额外的梯度项。
+
+PPO-clip 则不同：损失中的比率 \(r=\pi_\theta/\pi_{\text{old}}\) 需要保留梯度。这个比率在实际 loss 函数中计算；helper 产生的独立修正权重仍然不参与求导。
+
+IS 调整贡献大小，RS 决定是否纳入计算
+https://github.com/verl-project/verl/blob/main/verl/trainer/ppo/core_algos.py
+
+普通 PPO 本来就算 old_log_probs
+反向传播消耗是前向的两倍
+
+---
+
+detach和no_grad的区别
+pytorch的weights的loss是怎么存储的
+tensor、计算节点怎么存的（TensorImpl），loss如何指向节点
+
+EOS 后的 padding 也计入张量长度 T，但不计入有效 token 数量

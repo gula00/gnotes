@@ -1,0 +1,4 @@
+duckdb
+计算、存储分离？
+连接postgre
+支持的格式：csv, xlsx, arrow, parquet元信息结尾
