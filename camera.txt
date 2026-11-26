@@ -3,6 +3,32 @@ https://github.com/huggingface/lerobot/tree/main/src/lerobot/cameras
 校准
 内参、外参
 
+---
+三维重建 GAMES203
+点云 高斯
+XPBD FEM
+表面 mesh
+mpm
+https://github.com/rai-opensource/empm/tree/main
+
+刚体物理相关的很多，比如 box3d gltf/glb/obj 
+软体如何模拟？
+[SoftGym](https://github.com/Xingyu-Lin/softgym)
+[DaXBench](https://github.com/AdaCompNUS/DaXBench)
+[RoboCraft](https://github.com/hshi74/RoboCraft)
+[DexDeform](https://github.com/sizhe-li/DexDeform)
+[DiffCloud](https://github.com/priyasundaresan/diffcloud_real2sim)
+
+为什么只有 issacsim 要求 RT 
+
+https://github.com/NVlabs/FoundationStereo
+
+---
+可微渲染 可微物理
+
+---
+
+
 opengl的归一化坐标
 
 1 SPP
