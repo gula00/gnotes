@@ -27,7 +27,13 @@ https://github.com/NVlabs/FoundationStereo
 可微渲染 可微物理
 
 ---
+sensor-based rendering
 
+RT
+whitted-style
+
+光场 / 光源 类型
+---
 
 opengl的归一化坐标
 
